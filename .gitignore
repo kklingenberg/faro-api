@@ -1,0 +1,21 @@
+# dependencies
+/node_modules
+
+# build
+lambda.zip
+
+# debugging database
+database.sqlite
+
+# misc
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# configuration
+config.json
+config-*.json
+
+# Emacs
+*~
+\#*\#
