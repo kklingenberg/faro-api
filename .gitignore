@@ -16,9 +16,6 @@ yarn-error.log*
 config.json
 config-*.json
 
-# package lock
-package-lock.json
-
 # Emacs
 *~
 \#*\#
