@@ -8,6 +8,8 @@ const errors  = require('./lib/errors');
 
 const app = express();
 
+app.set('x-powered-by', false);
+
 app.options('*', cors());
 app.use(cors());
 
