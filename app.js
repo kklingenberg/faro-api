@@ -69,6 +69,8 @@ _.forEach(entries, (entrypoint, key) => {
 
 app.use((req, res, next) => next(errors.notFound("undefined route")));
 
+/* eslint-disable no-unused-vars */
+
 app.use((err, req, res, next) => {
   config.log.debug(err);
   if (err.response && err.status) {
@@ -76,5 +78,7 @@ app.use((err, req, res, next) => {
   }
   return res.status(500).json(errors.appError());
 });
+
+/* eslint-enable no-unused-vars */
 
 module.exports = app;

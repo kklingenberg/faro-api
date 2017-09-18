@@ -1,0 +1,12 @@
+{
+  "APPLICATION_KEYS": {
+    "testmobile": "mobile",
+    "testbrowser": "browser",
+    "testcron": "cron"
+  },
+  "SALT": "testsalt",
+  "DB_URL": {
+    "dialect": "sqlite"
+  },
+  "LOG_LEVEL": "warn"
+}
