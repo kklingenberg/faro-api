@@ -1,5 +1,9 @@
-const assert           = require('assert');
-const { describe, it } = require('mocha');
+const assert = require('assert');
+const {
+  describe,
+  it,
+  before
+} = require('mocha');
 
 const { sequelize } = require('../lib/db');
 const entrypoints   = require('../lib/entrypoints');
@@ -95,6 +99,46 @@ describe('entrypoints.device-update-single', function() {
           {}, context.credentials, { secret: device.secret }) })
             .then(() => assert.fail("updated another device"),
                   () => done()))
+      .catch(done);
+  });
+});
+
+describe('entrypoints.device-fetch-single', function() {
+  const context = { credentials: { key: "testmobile" } };
+  let device;
+
+  before(function() {
+    this.timeout(3000);
+    return sequelize.sync()
+      .then(() => entrypoints["device-create"]({ nickname: "aaa" }, context))
+      .then(dev => {
+        device = dev;
+      });
+  });
+
+  it('should fetch a persistent device', done => {
+    entrypoints["device-fetch-single"](
+      { id: device.id },
+      { credentials: { key: "testbrowser" } })
+      .then(dev => {
+        assert(dev);
+        assert.equal(device.id, dev.id);
+        assert.equal(device.nickname, dev.nickname);
+        assert(!dev.secret);
+        done();
+      })
+      .catch(done)
+  });
+
+  it('should fail to fetch a non-existent device', done => {
+    entrypoints["device-fetch-single"](
+      { id: "e806811a-f83c-4ce2-bd59-ace57ff3a4ae" },
+      { credentials: { key: "testbrowser" } })
+      .then(() => assert.fail("didn't fail to find non-existent device"),
+            err => {
+              if (err.status === 404) return done();
+              assert.fail("did't fail to find fake device");
+            })
       .catch(done);
   });
 });
